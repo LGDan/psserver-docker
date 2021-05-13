@@ -24,6 +24,7 @@ docker run -d \
     --restart unless-stopped \
     --name psserver \
     -p 80:80 \
+    -e JWT_SECRET=TestSecret123BigLongString1234567890 \
     YourHandle/psserver:latest
 ```
 

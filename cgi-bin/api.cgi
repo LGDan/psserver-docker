@@ -23,7 +23,7 @@ Write-Host ""
 
 # ---------------------------------------------------------------------
 
-. internal/authentication.ps1
+. ./internal/authentication.ps1
 
 Write-Host "<html>"
 Write-Host "<head>"
@@ -34,6 +34,20 @@ Write-Host "<body>"
 Write-Host "<pre>"
 env
 Write-Host "</pre>"
+if ($null -ne $env:HTTP_AUTHORIZATION) {
+    if ($env:HTTP_AUTHORIZATION -like "Bearer *") {
+        $Token = ([String]$env:HTTP_AUTHORIZATION).Split(" ")[1]
+        if (Test-AuthJWT -Token $Token -Secret $env:JWT_SECRET) {
+            Get-AuthJWTContentAndVerify -Token $Token -Secret $env:JWT_SECRET
+        }else{
+            Write-Host "JWT Invalid."
+        }
+    }else{
+        Write-Host "Authorization header needs Bearer ..."
+    }
+}else{
+    Write-Host "JWT not present."
+}
 Write-Host "</body>"
 Write-Host "</html>"
 
