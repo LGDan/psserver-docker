@@ -23,11 +23,12 @@ Write-Host ""
 
 # ---------------------------------------------------------------------
 
+. internal/authentication.ps1
 
 Write-Host "<html>"
 Write-Host "<head>"
 Write-Host "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-Write-Host "<title>Bash CGI script - API</title>"
+Write-Host "<title>PowerShell CGI script - API</title>"
 Write-Host "</head>"
 Write-Host "<body>"
 Write-Host "<pre>"

@@ -33,7 +33,7 @@ function Convert-FromMarkdown {
 Write-Host "<html>"
 Write-Host "<head>"
 Write-Host "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-Write-Host "<title>Bash CGI script</title>"
+Write-Host "<title>PowerShell CGI script</title>"
 Write-Host "</head>"
 Write-Host "<body>"
 Write-Host (Convert-FromMarkdown -markdown (Get-Content test.md))
