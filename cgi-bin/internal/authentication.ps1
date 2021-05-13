@@ -1,6 +1,6 @@
 #!/usr/bin/pwsh
 
-#    Copyright (C) 2021 Dan Galbraith
+#    Copyright (C) 2021
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -14,6 +14,11 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+# ---------------------------------------------------------------------
+# This set of functions are for working with JSON Web tokens and
+# handling claims based authorization.
+# ---------------------------------------------------------------------
 
 if (!(Test-Path "$env:HOME/.local/share/powershell/Modules/JWT")) {
     Install-Module JWT -Force
