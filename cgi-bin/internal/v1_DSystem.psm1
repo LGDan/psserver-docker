@@ -26,18 +26,10 @@ function Get-Thing() {
     #>
     [CmdletBinding()]
     param (
-        [Parameter(HelpMessage="Test")][String]$Token,
-        [Parameter()][String]$Secret,
-        [Parameter()][String]$Secret2,
-        [Parameter()][String]$Secret3,
-        [Parameter()][String]$Secret4,
-        [Parameter()][String]$Secret5
+        [Parameter(HelpMessage="Test")][String]$string
     )
     @{
-        "1"=$Token
-        "2"=$Secret
-        "3"=$Secret2
-        "4"=$Secret3
+        "1"=$string
     }
 }
 
