@@ -58,15 +58,7 @@ pre {
 }
 "@
     Get-DocsTemplate -title $moduleName -body $body -style $style
-
     $sb.AppendLine("") | Out-Null
-    
-    #Write-Host ("Content-Type: text/plain `n")
-    #Write-Host ("v1 - PSServer API Subsystem.")
-    #Write-Host ("----------------------------")
-    #Get-ChildItem "internal/" -filter *.psm1 | Where Name -like "v1_*" | Select -ExpandProperty Name | % {
-    #    $_.Substring(3).Split(".")[0]
-    #}
 }
 
 function Get-MarkdownFromCmdlet() {
