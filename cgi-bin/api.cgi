@@ -15,39 +15,44 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# ---------------------------------------------------------------------
-# Writing the content type is necessary when working with CGI scripts.
+# This file is the router for the api endpoint.
 
-Write-Host "Content-type: text/html"
-Write-Host ""
+$debug = $false
 
-# ---------------------------------------------------------------------
-
-. ./internal/authentication.ps1
-
-Write-Host "<html>"
-Write-Host "<head>"
-Write-Host "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-Write-Host "<title>PowerShell CGI script - API</title>"
-Write-Host "</head>"
-Write-Host "<body>"
-Write-Host "<pre>"
-env
-Write-Host "</pre>"
-if ($null -ne $env:HTTP_AUTHORIZATION) {
-    if ($env:HTTP_AUTHORIZATION -like "Bearer *") {
-        $Token = ([String]$env:HTTP_AUTHORIZATION).Split(" ")[1]
-        if (Test-AuthJWT -Token $Token -Secret $env:JWT_SECRET) {
-            Get-AuthJWTContentAndVerify -Token $Token -Secret $env:JWT_SECRET
-        }else{
-            Write-Host "JWT Invalid."
-        }
-    }else{
-        Write-Host "Authorization header needs Bearer ..."
-    }
-}else{
-    Write-Host "JWT not present."
+if ($debug) {
+    Write-Host "Content-type: text/html"
+    Write-Host ""
 }
-Write-Host "</body>"
-Write-Host "</html>"
 
+$global:path = $env:DOCUMENT_URI.Split("/")
+
+if ($null -ne $global:path[2]) {
+    Switch ($global:path[2]) {
+        "v1" {
+            try {
+                . ./v1.ps1
+            }catch{
+                Write-Host ("Status: 500 Internal Server Error")
+                Write-Host ("Content-Type: text/html; charset=utf-8`n")
+                Write-Host ("<h1>500 - There was an error running part of the API.</h1>")
+                Write-Host ("<p>Category:" + $_.CategoryInfo + "</p>")
+                Write-Host
+                $errorMessage = ($_ | Out-String)
+                $toReplace = ("[91m","[0m","[96m")
+                $toReplace | ForEach-Object {
+                    $errorMessage = $errorMessage.Replace($_,"")
+                }
+                Write-Host ("<h2>Error</h2> <pre>" + $errorMessage + "</pre>")
+                Write-Host ("<h2>Small Stack Trace</h2>")
+                Write-Host $_.ScriptStackTrace.ToString()
+                Write-Host ("<h2>Full Stack Trace</h2><pre>")
+                Write-Host $_.Exception
+                Write-Host ("</pre>")
+            }
+            break;
+        }
+        default {
+            Write-Host ("No API Found matching request.")
+        }
+    }
+}
