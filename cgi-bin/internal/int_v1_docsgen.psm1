@@ -16,6 +16,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+# The purpose of this script is for generating documentation.
+
 function Get-PSServerAPIv1ModuleList() {
     # .DESCRIPTION
     # Gets a list of available modules within this PSServer v1 API Instance.
